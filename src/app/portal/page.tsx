@@ -202,80 +202,38 @@ export default function PortalDashboard() {
             <div className="overflow-x-auto">
               <div className="min-w-[600px]">
                 {/* Timeline header */}
-                <div className="flex border-b pb-2 mb-2 text-xs text-muted-foreground">
-                  <div className="w-48 flex-shrink-0 font-medium">Phase / Task</div>
+                <div className="flex border-b pb-2 mb-3 text-xs text-muted-foreground">
+                  <div className="w-56 flex-shrink-0 font-medium">Task</div>
                   <div className="flex-1 flex justify-between px-2">
                     <span>{format(ganttData.minDate, "MMM d")}</span>
-                    <span>Today</span>
+                    <span className="text-blue-600 font-medium">Today</span>
                     <span>{format(ganttData.maxDate, "MMM d")}</span>
                   </div>
                 </div>
 
-                {/* Phases and tasks */}
+                {/* Tasks grouped by phase */}
                 {projects.map((project) => {
                   const projectTasks = tasks.filter(t => t.project_id === project.id);
                   const tasksWithDates = projectTasks.filter(t => t.start_date || t.due_date);
 
+                  if (tasksWithDates.length === 0) return null;
+
                   return (
-                    <div key={project.id} className="mb-4">
-                      {/* Phase row */}
-                      <Link href={`/portal/${project.id}`}>
-                        <div className="flex items-center hover:bg-muted/50 rounded py-1 cursor-pointer group">
-                          <div className="w-48 flex-shrink-0 flex items-center gap-2">
-                            <div
-                              className="w-3 h-3 rounded-full"
-                              style={{ backgroundColor: project.color }}
-                            />
-                            <span className="font-medium text-sm truncate group-hover:text-primary">
-                              {project.name}
-                            </span>
-                            <Badge variant="outline" className="text-xs">
-                              {projectTasks.length}
-                            </Badge>
-                          </div>
-                          <div className="flex-1 h-6 relative mx-2 bg-muted/30 rounded">
-                            {/* Today marker */}
-                            <div
-                              className="absolute top-0 bottom-0 w-0.5 bg-blue-500 z-10"
-                              style={{
-                                left: `${(differenceInDays(new Date(), ganttData.minDate) / ganttData.totalDays) * 100}%`
-                              }}
-                            />
-                            {/* Phase bar showing span of all tasks */}
-                            {tasksWithDates.length > 0 && (() => {
-                              const starts = tasksWithDates
-                                .map(t => t.start_date ? parseISO(t.start_date) : null)
-                                .filter((d): d is Date => d !== null && isValid(d));
-                              const ends = tasksWithDates
-                                .map(t => t.due_date ? parseISO(t.due_date) : null)
-                                .filter((d): d is Date => d !== null && isValid(d));
+                    <div key={project.id} className="mb-1">
+                      {/* Phase divider - subtle */}
+                      <div className="flex items-center gap-2 py-1 mb-1">
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: project.color }}
+                        />
+                        <span className="text-xs text-muted-foreground font-medium">
+                          {project.name}
+                        </span>
+                        <div className="flex-1 h-px bg-border" />
+                      </div>
 
-                              if (starts.length === 0 && ends.length === 0) return null;
-
-                              const phaseStart = starts.length > 0 ? Math.min(...starts.map(d => d.getTime())) : Math.min(...ends.map(d => d.getTime()));
-                              const phaseEnd = ends.length > 0 ? Math.max(...ends.map(d => d.getTime())) : Math.max(...starts.map(d => d.getTime()));
-
-                              const startOffset = differenceInDays(new Date(phaseStart), ganttData.minDate);
-                              const duration = differenceInDays(new Date(phaseEnd), new Date(phaseStart)) + 1;
-
-                              return (
-                                <div
-                                  className="absolute top-1 bottom-1 rounded"
-                                  style={{
-                                    left: `${(startOffset / ganttData.totalDays) * 100}%`,
-                                    width: `${(duration / ganttData.totalDays) * 100}%`,
-                                    backgroundColor: project.color,
-                                    opacity: 0.7,
-                                  }}
-                                />
-                              );
-                            })()}
-                          </div>
-                        </div>
-                      </Link>
-
-                      {/* Task rows */}
-                      {tasksWithDates.slice(0, 3).map((task) => {
+                      {/* All tasks in this phase */}
+                      {tasksWithDates.map((task) => {
                         const start = task.start_date ? parseISO(task.start_date) : null;
                         const end = task.due_date ? parseISO(task.due_date) : null;
                         const taskStart = start && isValid(start) ? start : end;
@@ -285,31 +243,37 @@ export default function PortalDashboard() {
 
                         const startOffset = differenceInDays(taskStart, ganttData.minDate);
                         const duration = Math.max(1, differenceInDays(taskEnd, taskStart) + 1);
+                        const todayOffset = (differenceInDays(new Date(), ganttData.minDate) / ganttData.totalDays) * 100;
 
                         return (
-                          <div key={task.id} className="flex items-center py-0.5 ml-5">
-                            <div className="w-43 flex-shrink-0 text-xs text-muted-foreground truncate">
+                          <div key={task.id} className="flex items-center py-1 hover:bg-muted/30 rounded group">
+                            <div className="w-56 flex-shrink-0 text-sm truncate pr-2">
                               {task.title}
                             </div>
-                            <div className="flex-1 h-4 relative mx-2">
+                            <div className="flex-1 h-6 relative mx-2">
+                              {/* Today marker */}
                               <div
-                                className="absolute top-0.5 bottom-0.5 rounded-sm"
+                                className="absolute top-0 bottom-0 w-0.5 bg-blue-500/50"
+                                style={{ left: `${todayOffset}%` }}
+                              />
+                              {/* Task bar */}
+                              <div
+                                className="absolute top-1 bottom-1 rounded flex items-center px-2 text-xs text-white font-medium overflow-hidden"
                                 style={{
                                   left: `${(startOffset / ganttData.totalDays) * 100}%`,
-                                  width: `${(duration / ganttData.totalDays) * 100}%`,
+                                  width: `${Math.max((duration / ganttData.totalDays) * 100, 8)}%`,
                                   backgroundColor: project.color,
-                                  opacity: task.status === "done" ? 0.4 : 0.9,
+                                  opacity: task.status === "done" ? 0.5 : 1,
                                 }}
-                              />
+                              >
+                                <span className="truncate drop-shadow-sm">
+                                  {task.title}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         );
                       })}
-                      {tasksWithDates.length > 3 && (
-                        <div className="ml-5 text-xs text-muted-foreground">
-                          +{tasksWithDates.length - 3} more tasks
-                        </div>
-                      )}
                     </div>
                   );
                 })}
