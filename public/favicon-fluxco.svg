@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Fluxco">
+  <rect width="64" height="64" fill="#287FBD" />
+  <!-- Lightning bolt (simple, bold silhouette for small sizes) -->
+  <path fill="#FFFFFF" d="M36.5 4L16 34h15.3L28 60l20-30H32.7L36.5 4z"/>
+</svg>

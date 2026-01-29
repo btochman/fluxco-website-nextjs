@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Oswald:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(215 25% 8%);
+  --color-foreground: hsl(210 20% 95%);
+  --color-card: hsl(215 20% 12%);
+  --color-card-foreground: hsl(210 20% 95%);
+  --color-popover: hsl(215 20% 12%);
+  --color-popover-foreground: hsl(210 20% 95%);
+  --color-primary: hsl(205 65% 45%);
+  --color-primary-foreground: hsl(210 20% 98%);
+  --color-secondary: hsl(215 15% 18%);
+  --color-secondary-foreground: hsl(210 20% 95%);
+  --color-muted: hsl(215 15% 22%);
+  --color-muted-foreground: hsl(215 15% 55%);
+  --color-accent: hsl(200 70% 50%);
+  --color-accent-foreground: hsl(210 20% 98%);
+  --color-destructive: hsl(0 65% 50%);
+  --color-destructive-foreground: hsl(210 20% 95%);
+  --color-border: hsl(215 15% 25%);
+  --color-input: hsl(215 15% 22%);
+  --color-ring: hsl(205 65% 45%);
+  --radius: 0.25rem;
+  --color-glow: hsl(200 70% 50%);
+  --color-steel: hsl(215 20% 50%);
+}
+
+:root {
+  /* Custom tokens */
+  --gradient-hero: linear-gradient(135deg, hsl(215 25% 10%) 0%, hsl(220 30% 6%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(205 65% 45%) 0%, hsl(200 70% 55%) 100%);
+  --gradient-card: linear-gradient(180deg, hsl(215 20% 14%) 0%, hsl(215 20% 10%) 100%);
+  --shadow-glow: 0 0 60px hsl(200 70% 50% / 0.15);
+  --shadow-card: 0 25px 50px -12px hsl(220 30% 5% / 0.6);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  font-family: 'Libre Baskerville', serif;
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.font-display {
+  font-family: 'Oswald', sans-serif;
+}
+
+.text-gradient {
+  background: var(--gradient-accent);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.glow-effect {
+  box-shadow: var(--shadow-glow);
+}
+
+.ranch-pattern {
+  background-image:
+    radial-gradient(circle at 25% 25%, var(--color-border) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, var(--color-border) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.card-gradient {
+  background: var(--gradient-card);
+}
+
+.western-border {
+  border: 2px solid var(--color-border);
+  position: relative;
+}
+
+.western-border::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid hsl(215 15% 25% / 0.5);
+  pointer-events: none;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.animate-fade-up-delay-1 {
+  animation: fadeUp 0.8s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fadeUp 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-up-delay-3 {
+  animation: fadeUp 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(205 65% 50% / 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(205 65% 50% / 0.35);
+  }
+}
