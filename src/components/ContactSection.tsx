@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
@@ -48,13 +47,16 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      // Send email notification
-      await supabase.functions.invoke("send-contact-email", {
-        body: {
-          to: "brian@fluxco.com",
-          ...formData,
-        },
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to send message");
+      }
 
       toast({
         title: "Message Sent",
