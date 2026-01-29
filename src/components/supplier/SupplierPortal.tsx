@@ -249,13 +249,14 @@ const SupplierPortal = () => {
           phone: signupPhone || null,
           city: signupCity || null,
           country: signupCountry || 'USA',
-          status: 'pending',
+          is_verified: false,
         })
         .select()
         .single();
 
       if (error) {
-        setLoginError("Failed to create account. Please try again.");
+        console.error("Supplier signup error:", error);
+        setLoginError(error.message || "Failed to create account. Please try again.");
       } else if (data) {
         setSupplier(data);
         setIsLoggedIn(true);

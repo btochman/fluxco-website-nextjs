@@ -72,7 +72,7 @@ const Navbar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                   <Link href="/employee" className="cursor-pointer">
-                    Employee Login
+                    Fluxer Login
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
@@ -134,7 +134,7 @@ const Navbar = () => {
                   className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2 block"
                   onClick={() => setIsOpen(false)}
                 >
-                  Employee Login
+                  Fluxer Login
                 </Link>
                 <Link
                   href="/supplier"
