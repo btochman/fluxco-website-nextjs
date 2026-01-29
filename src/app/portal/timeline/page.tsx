@@ -45,8 +45,8 @@ export default function TimelinePage() {
     try {
       if (selectedTask) {
         const { owner, blocked_by, blocks, ...updates } = taskData;
-        const { error } = await supabase
-          .from("tasks")
+        const { error } = await (supabase as any)
+          .from("portal_tasks")
           .update(updates)
           .eq("id", selectedTask.id);
         if (error) throw error;
