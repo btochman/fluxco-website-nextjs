@@ -36,12 +36,14 @@ const getProjectStatusBadge = (status: DBProject["status"]) => {
 
 // Login Form Component
 function LoginForm({ onLogin }: { onLogin: (employee: Employee) => void }) {
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -77,6 +79,72 @@ function LoginForm({ onLogin }: { onLogin: (employee: Employee) => void }) {
     setIsLoading(false);
   };
 
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    // Validate
+    if (!email || !password || !name) {
+      setError("Please fill in all fields");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!email.toLowerCase().endsWith('@fluxco.com')) {
+      setError("Only @fluxco.com email addresses can register");
+      setIsLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      // Check if email already exists
+      const { data: existing } = await supabase
+        .from('employee_users')
+        .select('id')
+        .eq('email', email.toLowerCase())
+        .single();
+
+      if (existing) {
+        setError("An account with this email already exists");
+        setIsLoading(false);
+        return;
+      }
+
+      // Create new employee
+      const { data, error: insertError } = await supabase
+        .from('employee_users')
+        .insert({
+          email: email.toLowerCase(),
+          password_hash: password, // In production, hash this!
+          name: name,
+          role: 'engineer', // Default role
+        })
+        .select()
+        .single();
+
+      if (insertError) {
+        setError("Failed to create account. Please try again.");
+      } else if (data) {
+        onLogin({
+          id: data.id,
+          email: data.email,
+          name: data.name,
+          role: data.role as Employee["role"],
+        });
+      }
+    } catch {
+      setError("An error occurred. Please try again.");
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center">
       <Card className="w-full max-w-md bg-card/50 backdrop-blur border-border">
@@ -97,48 +165,108 @@ function LoginForm({ onLogin }: { onLogin: (employee: Employee) => void }) {
             </svg>
           </div>
           <CardTitle className="text-2xl font-display">Fluxer Portal</CardTitle>
-          <CardDescription>Sign in to access the FluxCo project management dashboard</CardDescription>
+          <CardDescription>
+            {authMode === "login"
+              ? "Sign in to access the FluxCo project management dashboard"
+              : "Create your Fluxer account"}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@fluxco.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-background/50"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="bg-background/50"
-              />
-            </div>
-            {error && (
-              <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-md p-3">
-                {error}
-              </div>
-            )}
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
-          <div className="mt-6 pt-6 border-t border-border">
-            <p className="text-xs text-muted-foreground text-center">
-              Demo credentials: any email ending in @fluxco.com with password &quot;fluxco123&quot;
-            </p>
-          </div>
+          <Tabs value={authMode} onValueChange={(v) => { setAuthMode(v as "login" | "signup"); setError(""); }}>
+            <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsTrigger value="login">Sign In</TabsTrigger>
+              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="login">
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="login-email">Email</Label>
+                  <Input
+                    id="login-email"
+                    type="email"
+                    placeholder="you@fluxco.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="login-password">Password</Label>
+                  <Input
+                    id="login-password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                {error && (
+                  <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-md p-3">
+                    {error}
+                  </div>
+                )}
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Signing in..." : "Sign In"}
+                </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="signup">
+              <form onSubmit={handleSignUp} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-name">Full Name *</Label>
+                  <Input
+                    id="signup-name"
+                    type="text"
+                    placeholder="John Smith"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email">Email *</Label>
+                  <Input
+                    id="signup-email"
+                    type="email"
+                    placeholder="you@fluxco.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password">Password *</Label>
+                  <Input
+                    id="signup-password"
+                    type="password"
+                    placeholder="Min 6 characters"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="bg-background/50"
+                  />
+                </div>
+                {error && (
+                  <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-md p-3">
+                    {error}
+                  </div>
+                )}
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Creating Account..." : "Create Account"}
+                </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  Only @fluxco.com email addresses can register
+                </p>
+              </form>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </div>
@@ -150,7 +278,7 @@ function DashboardHeader({ employee, onLogout }: { employee: Employee; onLogout:
   return (
     <div className="flex items-center justify-between mb-8">
       <div>
-        <h1 className="text-3xl font-display text-foreground">Employee Dashboard</h1>
+        <h1 className="text-3xl font-display text-foreground">Fluxer Dashboard</h1>
         <p className="text-muted-foreground mt-1">
           Welcome back, {employee.name} ({employee.role})
         </p>
