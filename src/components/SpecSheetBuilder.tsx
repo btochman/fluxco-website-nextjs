@@ -282,6 +282,7 @@ Estimated Price: $${price.toLocaleString()}
       // Then try to send email notification (non-blocking)
       supabase.functions.invoke("send-contact-email", {
         body: {
+          to: "brian@fluxco.com",
           name: quoteForm.name.trim(),
           email: quoteForm.email.trim(),
           company: quoteForm.company.trim() || "Not specified",

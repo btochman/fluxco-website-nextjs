@@ -288,6 +288,7 @@ const JobCard = ({ job }: { job: JobListing }) => {
       // Then send email notification (non-blocking)
       supabase.functions.invoke("send-job-application", {
         body: {
+          to: "brian@fluxco.com",
           jobId: job.id,
           jobTitle: job.title,
           name: formData.name.trim(),

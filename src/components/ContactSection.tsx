@@ -64,7 +64,10 @@ const ContactSection = () => {
 
       // Then try to send email notification (non-blocking)
       supabase.functions.invoke("send-contact-email", {
-        body: formData,
+        body: {
+          to: "brian@fluxco.com",
+          ...formData,
+        },
       }).catch((emailError: unknown) => {
         console.warn("Email notification failed (submission still saved):", emailError);
       });
