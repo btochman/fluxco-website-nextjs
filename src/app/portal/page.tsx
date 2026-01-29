@@ -432,6 +432,8 @@ export default function PortalDashboard() {
             onOpenChange={(open) => !open && setSelectedTask(null)}
             task={{
               ...selectedTask,
+              status: selectedTask.status as "backlog" | "todo" | "in_progress" | "review" | "done",
+              priority: selectedTask.priority as "low" | "medium" | "high" | "urgent",
               blocked_by: [],
               blocks: [],
               completed_at: null,
