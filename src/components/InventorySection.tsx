@@ -1,6 +1,6 @@
 "use client";
-import { useState, useMemo } from "react";
-import { Search, Package, MapPin, ShieldCheck, ShieldX, RefreshCw, Clock, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { Search, Package, MapPin, ShieldCheck, ShieldX, RefreshCw, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { inventoryData, Transformer } from "@/data/inventoryData";
 import { useInventory, useInventoryStats, useLastScrapedTime, useRefreshInventory, type InventoryFilters } from "@/hooks/useInventory";
 import { formatDistanceToNow } from "date-fns";
 
@@ -48,50 +47,19 @@ const InventorySection = () => {
     capacityRange: capacityFilter,
     search: searchQuery,
   };
-  
-  const { data: scrapedInventory, isLoading, error } = useInventory(filters);
+
+  const { data: inventoryData, isLoading } = useInventory(filters);
   const { data: stats } = useInventoryStats();
   const { data: lastScraped } = useLastScrapedTime();
   const refreshMutation = useRefreshInventory();
 
-  // Use scraped data if available, otherwise fall back to mock data
-  const hasScrapedData = scrapedInventory && scrapedInventory.length > 0;
-
-  // Filter mock data when using fallback
-  const filteredMockInventory = useMemo(() => {
-    if (hasScrapedData) return [];
-    
-    return inventoryData.filter((item) => {
-      const matchesSearch =
-        searchQuery === "" ||
-        item.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.manufacturer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.voltage.toLowerCase().includes(searchQuery.toLowerCase());
-
-      const matchesType = typeFilter === "all" || item.type === typeFilter;
-      const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
-      
-      let matchesCapacity = true;
-      if (capacityFilter === "small" || capacityFilter === "0-500") matchesCapacity = item.capacityKVA <= 500;
-      else if (capacityFilter === "medium" || capacityFilter === "500-1000") matchesCapacity = item.capacityKVA > 500 && item.capacityKVA <= 1000;
-      else if (capacityFilter === "1000-2500") matchesCapacity = item.capacityKVA > 1000 && item.capacityKVA <= 2500;
-      else if (capacityFilter === "large" || capacityFilter === "2500-5000") matchesCapacity = item.capacityKVA > 2000 && item.capacityKVA <= 5000;
-      else if (capacityFilter === "5000-10000") matchesCapacity = item.capacityKVA > 5000 && item.capacityKVA <= 10000;
-      else if (capacityFilter === "10000+") matchesCapacity = item.capacityKVA > 10000;
-
-      return matchesSearch && matchesType && matchesCategory && matchesCapacity;
-    });
-  }, [searchQuery, typeFilter, categoryFilter, capacityFilter, hasScrapedData]);
-
-  const displayData = hasScrapedData ? scrapedInventory : filteredMockInventory;
-  const totalUnits = displayData.reduce((acc, item) => acc + (item.quantity || 1), 0);
+  const displayData = inventoryData || [];
 
   const displayStats = stats || {
-    totalProducts: inventoryData.length,
-    totalUnits: inventoryData.reduce((sum, item) => sum + item.quantity, 0),
-    newCount: inventoryData.filter(i => i.type === 'new').length,
-    refurbishedCount: inventoryData.filter(i => i.type === 'refurbished').length,
+    totalProducts: 0,
+    totalUnits: 0,
+    newCount: 0,
+    refurbishedCount: 0,
   };
 
   return (
@@ -247,88 +215,66 @@ const InventorySection = () => {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    displayData.slice(0, 100).map((item) => {
-                      // Handle both scraped and mock data structures
-                      const isScraped = 'source_url' in item;
-                      const id = isScraped ? (item.external_id || item.id) : (item as Transformer).id;
-                      const feocCompliant = isScraped ? item.feoc_compliant : (item as Transformer).feocCompliant;
-                      const sourceUrl = isScraped ? item.source_url : null;
-
-                      return (
-                        <TableRow key={item.id} className="border-border hover:bg-secondary/50">
-                          <TableCell className="font-mono text-sm text-primary">
-                            {String(id).substring(0, 12)}
-                          </TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={item.type === "new" ? "default" : "secondary"}
-                              className={item.type === "new" 
-                                ? "bg-primary/20 text-primary border-primary/30" 
-                                : "bg-accent/20 text-accent border-accent/30"
-                              }
-                            >
-                              {item.type === "new" ? "New" : "Refurb"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-foreground">{item.category}</TableCell>
-                          <TableCell className="font-medium text-foreground">{item.capacity}</TableCell>
-                          <TableCell className="text-muted-foreground text-sm">{item.voltage || '-'}</TableCell>
-                          <TableCell className="text-foreground">{item.manufacturer || '-'}</TableCell>
-                          <TableCell className="text-muted-foreground text-sm">
-                            <span className="flex items-center gap-1">
-                              <MapPin className="w-3 h-3" />
-                              {item.location || '-'}
+                    displayData.slice(0, 100).map((item) => (
+                      <TableRow key={item.id} className="border-border hover:bg-secondary/50">
+                        <TableCell className="font-mono text-sm text-primary">
+                          {item.sku || item.id.substring(0, 8)}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={item.type === "new" ? "default" : "secondary"}
+                            className={item.type === "new"
+                              ? "bg-primary/20 text-primary border-primary/30"
+                              : "bg-accent/20 text-accent border-accent/30"
+                            }
+                          >
+                            {item.type === "new" ? "New" : "Refurb"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-foreground">{item.category}</TableCell>
+                        <TableCell className="font-medium text-foreground">{item.capacity}</TableCell>
+                        <TableCell className="text-muted-foreground text-sm">{item.voltage || '-'}</TableCell>
+                        <TableCell className="text-foreground">{item.manufacturer || '-'}</TableCell>
+                        <TableCell className="text-muted-foreground text-sm">
+                          <span className="flex items-center gap-1">
+                            <MapPin className="w-3 h-3" />
+                            {item.location || '-'}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          {item.feoc_compliant ? (
+                            <span className="flex items-center gap-1 text-green-500">
+                              <ShieldCheck className="w-4 h-4" />
+                              <span className="text-xs font-medium">Yes</span>
                             </span>
-                          </TableCell>
-                          <TableCell>
-                            {feocCompliant ? (
-                              <span className="flex items-center gap-1 text-green-500">
-                                <ShieldCheck className="w-4 h-4" />
-                                <span className="text-xs font-medium">Yes</span>
-                              </span>
-                            ) : (
-                              <span className="flex items-center gap-1 text-red-400">
-                                <ShieldX className="w-4 h-4" />
-                                <span className="text-xs font-medium">No</span>
-                              </span>
-                            )}
-                          </TableCell>
-                          <TableCell className="font-medium text-foreground">{item.quantity || 1}</TableCell>
-                          <TableCell className="text-right font-semibold text-foreground">
-                            {formatPrice(item.price)}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              {sourceUrl && (
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  className="h-8 w-8 p-0"
-                                  asChild
-                                >
-                                  <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
-                                    <ExternalLink className="w-4 h-4" />
-                                  </a>
-                                </Button>
-                              )}
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground"
-                                onClick={() => {
-                                  const contactSection = document.getElementById("contact");
-                                  if (contactSection) {
-                                    contactSection.scrollIntoView({ behavior: "smooth" });
-                                  }
-                                }}
-                              >
-                                Quote
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })
+                          ) : (
+                            <span className="flex items-center gap-1 text-red-400">
+                              <ShieldX className="w-4 h-4" />
+                              <span className="text-xs font-medium">No</span>
+                            </span>
+                          )}
+                        </TableCell>
+                        <TableCell className="font-medium text-foreground">{item.quantity || 1}</TableCell>
+                        <TableCell className="text-right font-semibold text-foreground">
+                          {formatPrice(item.price)}
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground"
+                            onClick={() => {
+                              const contactSection = document.getElementById("contact");
+                              if (contactSection) {
+                                contactSection.scrollIntoView({ behavior: "smooth" });
+                              }
+                            }}
+                          >
+                            Quote
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
                   )}
                 </TableBody>
               </Table>

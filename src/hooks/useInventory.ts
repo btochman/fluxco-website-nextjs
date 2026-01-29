@@ -1,28 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, InventoryItem } from '@/lib/supabase';
 import { toast } from 'sonner';
-
-export interface ScrapedTransformer {
-  id: string;
-  source_id: string | null;
-  external_id: string | null;
-  type: 'new' | 'refurbished';
-  category: string;
-  capacity: string;
-  capacity_kva: number | null;
-  voltage: string | null;
-  manufacturer: string | null;
-  location: string | null;
-  feoc_compliant: boolean | null;
-  price: string | null;
-  price_numeric: number | null;
-  quantity: number | null;
-  source_url: string | null;
-  is_verified: boolean | null;
-  scraped_at: string;
-  created_at: string;
-  updated_at: string;
-}
 
 export interface InventoryFilters {
   search?: string;
@@ -32,14 +10,26 @@ export interface InventoryFilters {
   feocOnly?: boolean;
 }
 
+// Parse capacity string like "1500 kVA" to number
+function parseCapacityKva(capacity: string): number {
+  const match = capacity.match(/(\d+(?:,\d+)?)\s*(?:kVA|MVA)/i);
+  if (!match) return 0;
+  let value = parseInt(match[1].replace(',', ''), 10);
+  if (capacity.toLowerCase().includes('mva')) {
+    value *= 1000;
+  }
+  return value;
+}
+
 export function useInventory(filters?: InventoryFilters) {
   return useQuery({
     queryKey: ['inventory', filters],
     queryFn: async () => {
       let query = supabase
-        .from('scraped_inventory')
+        .from('inventory')
         .select('*')
-        .order('scraped_at', { ascending: false });
+        .eq('available', true)
+        .order('created_at', { ascending: false });
 
       if (filters?.type && filters.type !== 'all') {
         query = query.eq('type', filters.type);
@@ -53,33 +43,37 @@ export function useInventory(filters?: InventoryFilters) {
         query = query.eq('feoc_compliant', true);
       }
 
-      if (filters?.capacityRange && filters.capacityRange !== 'all') {
-        const [min, max] = parseCapacityRange(filters.capacityRange);
-        if (min !== null) {
-          query = query.gte('capacity_kva', min);
-        }
-        if (max !== null) {
-          query = query.lte('capacity_kva', max);
-        }
-      }
-
       const { data, error } = await query;
 
       if (error) {
-        throw error;
+        console.error('Inventory fetch error:', error);
+        return [];
       }
 
-      // Apply text search client-side (Supabase doesn't support full-text on all columns)
-      let results = data as ScrapedTransformer[];
+      let results = data as InventoryItem[];
 
+      // Apply capacity range filter client-side
+      if (filters?.capacityRange && filters.capacityRange !== 'all') {
+        const [min, max] = parseCapacityRange(filters.capacityRange);
+        results = results.filter(item => {
+          const kva = parseCapacityKva(item.capacity);
+          if (min !== null && kva < min) return false;
+          if (max !== null && kva > max) return false;
+          return true;
+        });
+      }
+
+      // Apply text search client-side
       if (filters?.search) {
         const searchLower = filters.search.toLowerCase();
         results = results.filter(item =>
+          item.sku?.toLowerCase().includes(searchLower) ||
           item.manufacturer?.toLowerCase().includes(searchLower) ||
           item.capacity?.toLowerCase().includes(searchLower) ||
           item.voltage?.toLowerCase().includes(searchLower) ||
           item.location?.toLowerCase().includes(searchLower) ||
-          item.category?.toLowerCase().includes(searchLower)
+          item.category?.toLowerCase().includes(searchLower) ||
+          item.model?.toLowerCase().includes(searchLower)
         );
       }
 
@@ -93,58 +87,33 @@ export function useInventoryStats() {
   return useQuery({
     queryKey: ['inventory-stats'],
     queryFn: async () => {
-      // Get total count
-      const { count: totalProducts, error: countError } = await supabase
-        .from('scraped_inventory')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_hidden', false);
+      // Get all inventory items for stats
+      const { data, error } = await supabase
+        .from('inventory')
+        .select('type, quantity')
+        .eq('available', true);
 
-      if (countError) throw countError;
-
-      // Get counts by type
-      const { count: newCount, error: newError } = await supabase
-        .from('scraped_inventory')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_hidden', false)
-        .eq('type', 'new');
-
-      if (newError) throw newError;
-
-      const { count: refurbishedCount, error: refurbError } = await supabase
-        .from('scraped_inventory')
-        .select('*', { count: 'exact', head: true })
-        .eq('is_hidden', false)
-        .eq('type', 'refurbished');
-
-      if (refurbError) throw refurbError;
-
-      // Get total units (sum of quantity) - fetch all with range
-      let allQuantities: { quantity: number | null }[] = [];
-      let from = 0;
-      const batchSize = 1000;
-      
-      while (true) {
-        const { data: batch, error: batchError } = await supabase
-          .from('scraped_inventory')
-          .select('quantity')
-          .eq('is_hidden', false)
-          .range(from, from + batchSize - 1);
-        
-        if (batchError) throw batchError;
-        if (!batch || batch.length === 0) break;
-        
-        allQuantities = [...allQuantities, ...batch];
-        if (batch.length < batchSize) break;
-        from += batchSize;
+      if (error) {
+        console.error('Stats fetch error:', error);
+        return {
+          totalProducts: 0,
+          totalUnits: 0,
+          newCount: 0,
+          refurbishedCount: 0,
+        };
       }
 
-      const totalUnits = allQuantities.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      const items = data || [];
+      const totalProducts = items.length;
+      const totalUnits = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      const newCount = items.filter(i => i.type === 'new').length;
+      const refurbishedCount = items.filter(i => i.type === 'refurbished').length;
 
       return {
-        totalProducts: totalProducts || 0,
+        totalProducts,
         totalUnits,
-        newCount: newCount || 0,
-        refurbishedCount: refurbishedCount || 0,
+        newCount,
+        refurbishedCount,
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -155,19 +124,19 @@ export function useLastScrapedTime() {
   return useQuery({
     queryKey: ['last-scraped'],
     queryFn: async () => {
+      // Get the most recent updated_at from inventory
       const { data, error } = await supabase
-        .from('scrape_logs')
-        .select('created_at')
-        .eq('status', 'success')
-        .order('created_at', { ascending: false })
+        .from('inventory')
+        .select('updated_at')
+        .order('updated_at', { ascending: false })
         .limit(1)
         .maybeSingle();
 
-      if (error) {
-        throw error;
+      if (error || !data) {
+        return null;
       }
 
-      return data?.created_at ? new Date(data.created_at) : null;
+      return new Date(data.updated_at);
     },
     staleTime: 60 * 1000, // 1 minute
   });
@@ -178,20 +147,16 @@ export function useRefreshInventory() {
 
   return useMutation({
     mutationFn: async () => {
-      const { data, error } = await supabase.functions.invoke('refresh-inventory');
-
-      if (error) {
-        throw error;
-      }
-
-      return data;
+      // For now, just invalidate queries to refresh from DB
+      // In the future, this could call an edge function to scrape new inventory
+      return { total_items_added: 0, total_items_updated: 0 };
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inventory'] });
       queryClient.invalidateQueries({ queryKey: ['inventory-stats'] });
       queryClient.invalidateQueries({ queryKey: ['last-scraped'] });
-      
-      toast.success(`Inventory refreshed: ${data.total_items_added} new, ${data.total_items_updated} updated`);
+
+      toast.success('Inventory refreshed');
     },
     onError: (error) => {
       console.error('Failed to refresh inventory:', error);
