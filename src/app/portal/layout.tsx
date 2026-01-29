@@ -1,79 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
-import { Zap, LayoutDashboard, LogOut, FolderKanban } from "lucide-react";
+import { Zap, LayoutDashboard, FolderKanban, Home } from "lucide-react";
 
 export default function PortalLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (!session?.user) {
-        router.push("/fluxer-auth");
-        return;
-      }
-
-      const email = session.user.email;
-      setUserEmail(email || null);
-
-      // Verify fluxer access
-      const isFluxcoDomain = email?.endsWith("@fluxco.com");
-
-      if (!isFluxcoDomain) {
-        // Check allowlist (cast to any since types haven't been regenerated)
-        const { data: allowlistEntry } = await (supabase as any)
-          .from("fluxer_allowlist")
-          .select("email")
-          .eq("email", email)
-          .single();
-
-        if (!allowlistEntry) {
-          router.push("/fluxer-auth");
-          return;
-        }
-      }
-
-      setIsLoading(false);
-    };
-
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (!session) {
-          router.push("/fluxer-auth");
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, [router]);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push("/fluxer-auth");
-  };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-muted-foreground">Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background">
       {/* Top Navigation */}
@@ -84,7 +19,7 @@ export default function PortalLayout({
               <div className="p-1.5 bg-primary rounded">
                 <Zap className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-semibold text-lg">Fluxer Portal</span>
+              <span className="font-semibold text-lg">FluxCo Portal</span>
             </Link>
 
             <nav className="hidden md:flex items-center gap-1">
@@ -104,13 +39,12 @@ export default function PortalLayout({
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground hidden sm:inline">
-              {userEmail}
-            </span>
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="gap-2">
-              <LogOut className="h-4 w-4" />
-              <span className="hidden sm:inline">Logout</span>
-            </Button>
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Home className="h-4 w-4" />
+                <span className="hidden sm:inline">Back to Site</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
