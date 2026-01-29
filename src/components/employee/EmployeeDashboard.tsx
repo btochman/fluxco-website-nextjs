@@ -130,7 +130,8 @@ function LoginForm({ onLogin }: { onLogin: (employee: Employee) => void }) {
         .single();
 
       if (insertError) {
-        setError("Failed to create account. Please try again.");
+        console.error("Fluxer signup error:", insertError);
+        setError(insertError.message || "Failed to create account. Please try again.");
       } else if (data) {
         onLogin({
           id: data.id,
