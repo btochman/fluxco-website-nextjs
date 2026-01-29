@@ -1,10 +1,16 @@
 "use client";
 
-import { Zap, Menu, X } from "lucide-react";
+import { Zap, Menu, X, LogIn } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +21,6 @@ const Navbar = () => {
     { name: "About", href: "#about", isAnchor: true },
     { name: "Products", href: "#products", isAnchor: true },
     { name: "Inventory", href: "/inventory", isAnchor: false },
-    { name: "Design Tool", href: "/design", isAnchor: false },
     { name: "Careers", href: "/careers", isAnchor: false },
     { name: "Contact", href: "#contact", isAnchor: true },
   ];
@@ -33,8 +38,9 @@ const Navbar = () => {
               FLUXCO
             </span>
           </Link>
+
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8 ml-auto">
+          <div className="hidden md:flex items-center gap-6 ml-auto">
             {navLinks.map((link) => (
               link.isAnchor ? (
                 <Link
@@ -54,12 +60,34 @@ const Navbar = () => {
                 </Link>
               )
             ))}
-            <Button
-              variant="hero"
-              size="lg"
-              onClick={() => document.getElementById('spec-builder')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Spec Builder
+
+            {/* Login Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2">
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/employee" className="cursor-pointer">
+                    Employee Login
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/supplier" className="cursor-pointer">
+                    Supplier Login
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Design Tool Button */}
+            <Button asChild variant="hero" size="lg">
+              <Link href="/design">
+                Design Tool
+              </Link>
             </Button>
           </div>
 
@@ -97,16 +125,30 @@ const Navbar = () => {
                   </Link>
                 )
               ))}
-              <Button
-                variant="hero"
-                size="lg"
-                className="mt-4"
-                onClick={() => {
-                  document.getElementById('spec-builder')?.scrollIntoView({ behavior: 'smooth' });
-                  setIsOpen(false);
-                }}
-              >
-                Spec Builder
+
+              {/* Mobile Login Links */}
+              <div className="border-t border-border pt-4 mt-2">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">Login</p>
+                <Link
+                  href="/employee"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2 block"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Employee Login
+                </Link>
+                <Link
+                  href="/supplier"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2 block"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Supplier Login
+                </Link>
+              </div>
+
+              <Button asChild variant="hero" size="lg" className="mt-4">
+                <Link href="/design" onClick={() => setIsOpen(false)}>
+                  Design Tool
+                </Link>
               </Button>
             </div>
           </div>
