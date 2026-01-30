@@ -105,7 +105,8 @@ export function useInventoryStats() {
 
       const items = data || [];
       const totalProducts = items.length;
-      const totalUnits = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      // Use ?? so quantity:0 stays 0, only null/undefined becomes 1
+      const totalUnits = items.reduce((sum, item) => sum + (item.quantity ?? 1), 0);
       const newCount = items.filter(i => i.type === 'new').length;
       const refurbishedCount = items.filter(i => i.type === 'refurbished').length;
 
