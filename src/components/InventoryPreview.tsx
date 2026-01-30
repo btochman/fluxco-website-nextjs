@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { inventoryData, Transformer } from "@/data/inventoryData";
+import { useInventory, useInventoryStats } from "@/hooks/useInventory";
 
 // Format price with commas
 const formatPrice = (price: string | null): string => {
@@ -26,15 +26,19 @@ const formatPrice = (price: string | null): string => {
 };
 
 const InventoryPreview = () => {
-  // Use mock data for now
-  const displayData = inventoryData.slice(0, 6);
+  const { data: inventory = [], isLoading: inventoryLoading } = useInventory();
+  const { data: stats, isLoading: statsLoading } = useInventoryStats();
 
-  const displayStats = {
-    totalProducts: inventoryData.length,
-    totalUnits: inventoryData.reduce((sum, item) => sum + item.quantity, 0),
-    newCount: inventoryData.filter(i => i.type === 'new').length,
-    refurbishedCount: inventoryData.filter(i => i.type === 'refurbished').length,
+  const displayData = inventory.slice(0, 6);
+
+  const displayStats = stats ?? {
+    totalProducts: 0,
+    totalUnits: 0,
+    newCount: 0,
+    refurbishedCount: 0,
   };
+
+  const isLoading = inventoryLoading || statsLoading;
 
   return (
     <section id="inventory" className="py-24 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
@@ -95,14 +99,16 @@ const InventoryPreview = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {displayData.map((item) => {
-                  const id = item.id;
-                  const feocCompliant = item.feocCompliant;
-
-                  return (
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
+                      Loading inventory...
+                    </TableCell>
+                  </TableRow>
+                ) : displayData.map((item) => (
                     <TableRow key={item.id} className="border-border hover:bg-secondary/50">
                       <TableCell className="font-mono text-sm text-primary">
-                        {String(id).substring(0, 12)}
+                        {item.sku?.substring(0, 12) || item.id.substring(0, 8)}
                       </TableCell>
                       <TableCell>
                         <Badge
@@ -126,7 +132,7 @@ const InventoryPreview = () => {
                         </span>
                       </TableCell>
                       <TableCell>
-                        {feocCompliant ? (
+                        {item.feoc_compliant ? (
                           <ShieldCheck className="w-4 h-4 text-green-500" />
                         ) : (
                           <ShieldX className="w-4 h-4 text-red-400" />
@@ -137,8 +143,7 @@ const InventoryPreview = () => {
                         {formatPrice(item.price)}
                       </TableCell>
                     </TableRow>
-                  );
-                })}
+                ))}
               </TableBody>
             </Table>
           </div>
