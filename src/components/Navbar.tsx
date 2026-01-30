@@ -1,23 +1,76 @@
 "use client";
 
-import { Zap, Menu, X } from "lucide-react";
+import { Zap, Menu, X, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
+
+const transformerLinks = [
+  {
+    title: "All Transformers",
+    href: "/transformers",
+    description: "Browse our complete transformer catalog",
+  },
+  {
+    title: "Padmount",
+    href: "/transformers/padmount",
+    description: "Ground-level units for underground distribution",
+  },
+  {
+    title: "Substation",
+    href: "/transformers/substation",
+    description: "High-capacity power transformers 10-500+ MVA",
+  },
+  {
+    title: "Distribution",
+    href: "/transformers/distribution",
+    description: "Pole-mount and platform transformers",
+  },
+  {
+    title: "Dry-Type",
+    href: "/transformers/dry-type",
+    description: "Air-cooled for indoor and fire-sensitive areas",
+  },
+];
+
+const solutionLinks = [
+  {
+    title: "Data Centers",
+    href: "/solutions/data-centers",
+    description: "Power infrastructure for hyperscale facilities",
+  },
+  {
+    title: "Renewable Energy",
+    href: "/solutions/renewable-energy",
+    description: "Solar, wind, and battery storage solutions",
+  },
+  {
+    title: "EV Infrastructure",
+    href: "/solutions/ev-infrastructure",
+    description: "Charging stations and fleet electrification",
+  },
+  {
+    title: "Industrial",
+    href: "/solutions/industrial",
+    description: "Manufacturing, mining, and heavy industry",
+  },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-
-  const navLinks = [
-    { name: "About", href: "#about", isAnchor: true },
-    { name: "Products", href: "#products", isAnchor: true },
-    { name: "Inventory", href: "/inventory", isAnchor: false },
-    { name: "Careers", href: "/careers", isAnchor: false },
-    { name: "Contact", href: "#contact", isAnchor: true },
-  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -34,45 +87,125 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6 ml-auto">
-            {navLinks.map((link) => (
-              link.isAnchor ? (
-                <Link
-                  key={link.name}
-                  href={isHomePage ? link.href : `/${link.href}`}
-                  className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider"
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider"
-                >
-                  {link.name}
-                </Link>
-              )
-            ))}
+          <div className="hidden lg:flex items-center gap-2 ml-auto">
+            <NavigationMenu>
+              <NavigationMenuList>
+                {/* About - simple link */}
+                <NavigationMenuItem>
+                  <Link
+                    href={isHomePage ? "#about" : "/#about"}
+                    className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider px-4 py-2"
+                  >
+                    About
+                  </Link>
+                </NavigationMenuItem>
+
+                {/* Products Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-sm uppercase tracking-wider">
+                    Products
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                      {transformerLinks.map((link) => (
+                        <li key={link.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={link.href}
+                              className={cn(
+                                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              )}
+                            >
+                              <div className="text-sm font-medium leading-none">
+                                {link.title}
+                              </div>
+                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {link.description}
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Solutions Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent text-sm uppercase tracking-wider">
+                    Solutions
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                      {solutionLinks.map((link) => (
+                        <li key={link.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={link.href}
+                              className={cn(
+                                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              )}
+                            >
+                              <div className="text-sm font-medium leading-none">
+                                {link.title}
+                              </div>
+                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {link.description}
+                              </p>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                {/* Inventory - simple link */}
+                <NavigationMenuItem>
+                  <Link
+                    href="/inventory"
+                    className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider px-4 py-2"
+                  >
+                    Inventory
+                  </Link>
+                </NavigationMenuItem>
+
+                {/* FAQ - simple link */}
+                <NavigationMenuItem>
+                  <Link
+                    href="/faq"
+                    className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider px-4 py-2"
+                  >
+                    FAQ
+                  </Link>
+                </NavigationMenuItem>
+
+                {/* Contact - simple link */}
+                <NavigationMenuItem>
+                  <Link
+                    href={isHomePage ? "#contact" : "/#contact"}
+                    className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider px-4 py-2"
+                  >
+                    Contact
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
 
             {/* Portal Button */}
-            <Button asChild variant="outline" size="lg">
-              <Link href="/portal">
-                Portal
-              </Link>
+            <Button asChild variant="outline" size="lg" className="ml-4">
+              <Link href="/portal">Portal</Link>
             </Button>
 
             {/* Design Tool Button */}
             <Button asChild variant="hero" size="lg">
-              <Link href="/design">
-                Design Tool
-              </Link>
+              <Link href="/design">Design Tool</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-foreground"
+            className="lg:hidden text-foreground"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -81,29 +214,111 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-6 border-t border-border animate-fade-up">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                link.isAnchor ? (
-                  <Link
-                    key={link.name}
-                    href={isHomePage ? link.href : `/${link.href}`}
-                    className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                ) : (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                )
-              ))}
+          <div className="lg:hidden py-6 border-t border-border animate-fade-up">
+            <div className="flex flex-col gap-2">
+              {/* About */}
+              <Link
+                href={isHomePage ? "#about" : "/#about"}
+                className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                About
+              </Link>
+
+              {/* Products Submenu */}
+              <div>
+                <button
+                  onClick={() =>
+                    setMobileSubmenu(
+                      mobileSubmenu === "products" ? null : "products"
+                    )
+                  }
+                  className="flex items-center justify-between w-full text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+                >
+                  Products
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 transition-transform",
+                      mobileSubmenu === "products" && "rotate-180"
+                    )}
+                  />
+                </button>
+                {mobileSubmenu === "products" && (
+                  <div className="pl-4 flex flex-col gap-2 mt-2">
+                    {transformerLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-muted-foreground hover:text-primary transition-colors text-sm py-1"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {link.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Solutions Submenu */}
+              <div>
+                <button
+                  onClick={() =>
+                    setMobileSubmenu(
+                      mobileSubmenu === "solutions" ? null : "solutions"
+                    )
+                  }
+                  className="flex items-center justify-between w-full text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+                >
+                  Solutions
+                  <ChevronDown
+                    className={cn(
+                      "w-4 h-4 transition-transform",
+                      mobileSubmenu === "solutions" && "rotate-180"
+                    )}
+                  />
+                </button>
+                {mobileSubmenu === "solutions" && (
+                  <div className="pl-4 flex flex-col gap-2 mt-2">
+                    {solutionLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-muted-foreground hover:text-primary transition-colors text-sm py-1"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {link.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Inventory */}
+              <Link
+                href="/inventory"
+                className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Inventory
+              </Link>
+
+              {/* FAQ */}
+              <Link
+                href="/faq"
+                className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                FAQ
+              </Link>
+
+              {/* Contact */}
+              <Link
+                href={isHomePage ? "#contact" : "/#contact"}
+                className="text-muted-foreground hover:text-primary transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
 
               <Button asChild variant="outline" size="lg" className="mt-4">
                 <Link href="/portal" onClick={() => setIsOpen(false)}>
