@@ -183,12 +183,12 @@ export default function ProjectDetailPage({ params }: PageProps) {
         {viewType === "kanban" ? (
           <KanbanBoard
             tasks={tasks}
+            projectId={projectId}
             onTaskClick={(task) => {
               setSelectedTask(task);
               setIsTaskDialogOpen(true);
             }}
             onTaskMove={handleTaskMove}
-            onAddTask={handleAddTask}
           />
         ) : (
           <GanttChart

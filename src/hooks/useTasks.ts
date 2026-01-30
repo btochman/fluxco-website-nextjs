@@ -120,9 +120,17 @@ export function useUpdateTask(projectId: string) {
       taskId: string;
       updates: TaskUpdate;
     }) => {
+      // Handle completed_at based on status
+      const finalUpdates = { ...updates };
+      if (updates.status === "done" && !updates.completed_at) {
+        finalUpdates.completed_at = new Date().toISOString();
+      } else if (updates.status && updates.status !== "done") {
+        finalUpdates.completed_at = null;
+      }
+
       const { data, error } = await (supabase as any)
         .from("portal_tasks")
-        .update(updates)
+        .update(finalUpdates)
         .eq("id", taskId)
         .select()
         .single();
@@ -130,7 +138,34 @@ export function useUpdateTask(projectId: string) {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onMutate: async ({ taskId, updates }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["tasks", projectId] });
+
+      // Snapshot previous value
+      const previousTasks = queryClient.getQueryData<TaskWithDependencies[]>([
+        "tasks",
+        projectId,
+      ]);
+
+      // Optimistically update
+      queryClient.setQueryData<TaskWithDependencies[]>(
+        ["tasks", projectId],
+        (old) =>
+          old?.map((task) =>
+            task.id === taskId ? { ...task, ...updates } : task
+          )
+      );
+
+      return { previousTasks };
+    },
+    onError: (_err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousTasks) {
+        queryClient.setQueryData(["tasks", projectId], context.previousTasks);
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
       queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
@@ -305,6 +340,30 @@ export function useProjects() {
       }>;
     },
     staleTime: 30 * 1000,
+  });
+}
+
+// Fetch all team members
+export interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string | null;
+}
+
+export function useTeamMembers() {
+  return useQuery({
+    queryKey: ["team-members"],
+    queryFn: async () => {
+      const { data, error } = await (supabase as any)
+        .from("team_members")
+        .select("*")
+        .order("name");
+
+      if (error) throw error;
+      return data as TeamMember[];
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 }
 
