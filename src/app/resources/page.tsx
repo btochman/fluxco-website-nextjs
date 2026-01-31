@@ -124,9 +124,10 @@ export default function ResourcesPage() {
             {Object.entries(categoryInfo).map(([key, info]) => {
               const Icon = info.icon;
               return (
-                <div
+                <a
                   key={key}
-                  className="flex items-start gap-4 p-4 rounded-lg bg-muted/30"
+                  href={`#${key}`}
+                  className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/50 hover:border-primary/50 border border-transparent transition-all cursor-pointer"
                 >
                   <div
                     className={`w-10 h-10 ${info.color} rounded-lg flex items-center justify-center flex-shrink-0`}
@@ -139,7 +140,7 @@ export default function ResourcesPage() {
                       {info.description}
                     </p>
                   </div>
-                </div>
+                </a>
               );
             })}
           </div>
@@ -148,7 +149,7 @@ export default function ResourcesPage() {
 
       {/* Buyer's Guides */}
       {guides.length > 0 && (
-        <section className="py-16">
+        <section id="guides" className="py-16 scroll-mt-24">
           <div className="container mx-auto px-6">
             <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8">
               Buyer&apos;s Guides
@@ -164,7 +165,7 @@ export default function ResourcesPage() {
 
       {/* Technical Resources */}
       {technical.length > 0 && (
-        <section className="py-16 bg-muted/30">
+        <section id="technical" className="py-16 bg-muted/30 scroll-mt-24">
           <div className="container mx-auto px-6">
             <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8">
               Technical Resources
@@ -180,7 +181,7 @@ export default function ResourcesPage() {
 
       {/* Industry Insights */}
       {industry.length > 0 && (
-        <section className="py-16">
+        <section id="industry" className="py-16 scroll-mt-24">
           <div className="container mx-auto px-6">
             <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8">
               Industry Insights
