@@ -33,12 +33,12 @@ const faqCategories = [
       {
         question: "What is the typical lead time for transformers?",
         answer:
-          "Lead times vary by type and specifications. Stock units can ship within 1-2 weeks. Standard distribution transformers typically take 16-24 weeks. Large power/substation transformers may require 40-60 weeks. Contact us for current availability on specific configurations.",
+          "It depends on what you need and what's available. New and refurbished units in stock at our partner stockyards can ship within 1-2 weeks. Units ready for refurbishment take 4-6 weeks. For new-build orders from American manufacturers, expect 16-28 weeks for distribution transformers and 40-60+ weeks for large power transformers. We always check stock first—it's usually the fastest and most cost-effective option.",
       },
       {
         question: "Do you have transformers in stock?",
         answer:
-          "Yes, we maintain inventory of common transformer types and sizes. Our real-time inventory system shows current availability. For items not in stock, we can source from our global manufacturer network with competitive lead times.",
+          "Yes. We partner with stockyards across the United States that maintain extensive transformer inventory. Our stock includes new units ready to ship, refurbished units that have been fully reconditioned, and units prepped and ready for refurbishment. New and refurbished in-stock units can ship within 1-2 weeks. Units requiring refurbishment typically take 4-6 weeks—still far faster than ordering new from a manufacturer.",
       },
       {
         question: "How do I request a quote?",
@@ -54,6 +54,16 @@ const faqCategories = [
         question: "Do you offer financing or leasing options?",
         answer:
           "We work with financing partners who can provide lease and loan options for transformer purchases. Contact our sales team to discuss financing for your specific project.",
+      },
+      {
+        question: "Are refurbished transformers reliable?",
+        answer:
+          "When done right, absolutely. Our partner stockyards follow rigorous refurbishment processes: full inspection, oil processing or replacement, winding testing, bushing replacement if needed, fresh paint, and comprehensive electrical testing. A properly refurbished transformer can provide decades of reliable service at 40-60% of new cost. We provide test reports and warranty coverage on all refurbished units. For many applications, refurbished is the smart choice—faster delivery, lower cost, and proven reliability.",
+      },
+      {
+        question: "What's the difference between 'in stock' and 'ready for refurb'?",
+        answer:
+          "In-stock units are ready to ship immediately—either new or already refurbished. 'Ready for refurb' units are transformers our stockyard partners have acquired and inspected, confirmed to be good candidates for refurbishment, but haven't yet been through the full reconditioning process. These typically take 4-6 weeks to complete. The advantage: you're not waiting 6+ months for new manufacturing, and the unit has already been located and evaluated.",
       },
     ],
   },
@@ -108,7 +118,7 @@ const faqCategories = [
       {
         question: "Do you offer emergency or rush delivery?",
         answer:
-          "Yes, we maintain stock of common transformer sizes for emergency replacements. For custom units, expedited manufacturing may be available at additional cost. Contact us immediately for emergency situations—we understand downtime is costly.",
+          "Absolutely—this is where our stockyard network shines. We have eyes on transformer inventory across the country and can often locate a matching or compatible unit within hours. For true emergencies, we've shipped transformers within days. Refurbished units ready to go are often the fastest solution for emergency replacements. Call us directly for urgent situations—downtime is expensive and we move fast.",
       },
       {
         question: "What warranty do you provide?",
@@ -143,7 +153,7 @@ const faqCategories = [
       {
         question: "How do you compare to buying direct from manufacturers?",
         answer:
-          "We aggregate demand across our customer base to negotiate competitive pricing. Our value includes: access to multiple manufacturers, technical support, project coordination, and reduced procurement complexity. For many buyers, total cost is comparable or lower.",
+          "We offer something manufacturers can't: speed and inventory visibility. Our stockyard network gives you access to transformers that are available now—new, refurbished, or ready for refurb—rather than waiting 6-12 months for new production. For new-build orders, we work with American manufacturers and can often match or beat direct pricing because we bring volume. The real value is optionality: we'll find you the fastest, most cost-effective path to getting your transformer, whether that's stock, refurb, or new.",
       },
     ],
   },
