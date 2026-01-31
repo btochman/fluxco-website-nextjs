@@ -182,177 +182,333 @@ FluxCo specializes in American-made transformers and verified domestic content. 
 `,
   },
   {
-    slug: "padmount-vs-substation-transformer",
-    title: "Padmount vs. Substation Transformers: Which Do You Need?",
+    slug: "transformer-types-explained",
+    title: "Transformers 101: Every Type Explained (So You Don't Sound Clueless on Your Next Call)",
     description:
-      "Compare padmount and substation transformers: capacity ranges, applications, installation requirements, and why securing domestic supply is critical for either choice.",
+      "The complete guide to transformer types: padmount, pole-mount, substation, dry-type, autotransformers, and more. What they are, when to use them, and what they cost.",
     category: "guides",
     publishedAt: "2026-01-30",
-    readTime: "6 min read",
+    readTime: "12 min read",
     keywords: [
+      "transformer types",
       "padmount transformer",
       "substation transformer",
-      "transformer comparison",
+      "pole mount transformer",
+      "dry type transformer",
       "power transformer",
       "distribution transformer",
-      "american made transformer",
+      "autotransformer",
+      "transformer guide",
     ],
     content: `
-## Overview
+## Why This Guide Exists
 
-Choosing between a padmount transformer and a substation transformer depends on your capacity requirements, installation site, and budget. This guide breaks down the key differences to help you make the right decision.
+Walk into a transformer conversation unprepared and you'll get eaten alive. Sales reps will upsell you. Engineers will talk past you. And you'll end up with the wrong equipment, wrong timeline, or wrong price.
 
-**But first, a reality check**: Regardless of which type you need, lead times have stretched to absurd lengths because America gutted its transformer manufacturing base. Plan accordingly.
+This guide covers every major transformer type you'll encounter. Bookmark it. You'll need it.
 
-## Quick Comparison
+## The Two Big Categories
 
-| Feature | Padmount | Substation |
-|---------|----------|------------|
-| Capacity | 75 kVA - 10 MVA | 5 MVA - 500+ MVA |
-| Primary Voltage | 4 kV - 35 kV | 34.5 kV - 500 kV |
-| Installation | Concrete pad | Dedicated substation yard |
-| Enclosure | Self-contained cabinet | Open-air or building |
-| Typical Cost | $15K - $150K | $200K - $5M+ |
-| Lead Time (Domestic) | 12-24 weeks | 36-60 weeks |
-| Lead Time (Import) | 16-32 weeks | 52-80+ weeks |
+Before we dive into specific types, understand the fundamental split:
 
-Notice those lead times? A decade ago, you could get a padmount in 4-6 weeks. Now you're waiting months because we let manufacturing capacity move overseas.
+### Distribution Transformers
+- Step voltage **down** from medium voltage to usable levels
+- Serve end users: buildings, homes, facilities
+- Typically 10 kVA to 10 MVA
+- What most people mean when they say "transformer"
+
+### Power Transformers (Substation)
+- Handle **bulk power** at transmission and sub-transmission levels
+- Step between high voltages (69 kV to 500 kV)
+- Typically 10 MVA to 500+ MVA
+- Found in utility substations and large industrial facilities
+
+Now let's get specific.
+
+---
 
 ## Padmount Transformers
 
-### What They Are
+**What they are**: Ground-mounted, self-contained units in locked steel cabinets. The green boxes you see in neighborhoods and commercial areas.
 
-Padmount transformers are self-contained, ground-mounted units designed for underground distribution systems. They're enclosed in a locked, tamper-resistant steel cabinet that houses the transformer, switches, and protective equipment.
+**Capacity**: 75 kVA to 10 MVA (most commonly 150 kVA to 2,500 kVA)
 
-### Best Applications
+**Primary voltage**: 4 kV to 35 kV
 
-- **Commercial developments**: Shopping centers, office parks, retail
-- **Residential subdivisions**: Underground residential distribution (URD)
-- **Institutional**: Schools, hospitals, government buildings
-- **Light industrial**: Warehouses, small manufacturing
-- **Data centers**: Increasingly common for distributed power
+**Best for**:
+- Underground distribution systems
+- Commercial developments (shopping centers, office parks)
+- Residential subdivisions
+- Schools, hospitals, government buildings
+- Data centers (distributed power architecture)
 
-### Advantages
+**Why people choose them**:
+- **Aesthetics**: Low profile, can be landscaped around
+- **Safety**: Dead-front design, tamper-resistant cabinet
+- **Flexibility**: Loop-feed or radial configurations
+- **No poles**: Required for underground distribution
 
-1. **Aesthetics**: Low profile, can be landscaped around
-2. **Safety**: Dead-front construction, locked cabinet
-3. **Flexibility**: Loop-feed or radial configurations
-4. **Cost**: Lower installation cost than substation
-5. **Space**: Smaller footprint than equivalent substation
+**Limitations**:
+- Max ~10 MVA capacity
+- Can't handle transmission voltages
+- Harder to expand later
 
-### Limitations
+**Typical cost**: $25,000 - $150,000 (equipment only)
 
-- Maximum capacity around 10 MVA
-- Limited to medium voltage primary (typically 35 kV max)
-- Not suitable for transmission-level voltages
-- Harder to expand capacity later
+**Lead time**: 12-24 weeks new; 1-6 weeks from stock/refurb
 
-### The Domestic Supply Problem
+---
 
-Padmount transformers should be a bright spot for American manufacturing—they're too heavy to ship economically from Asia for small orders. Yet consolidation has left only a handful of domestic producers, and they're backlogged for months.
+## Pole-Mount Transformers
 
-**What happened?** Utilities got addicted to cheap imports, domestic manufacturers couldn't compete, factories closed, and now there's not enough capacity when demand surged.
+**What they are**: Smaller transformers mounted on utility poles, serving overhead distribution systems. The cylindrical cans you see on power lines.
 
-## Substation Transformers
+**Capacity**: 5 kVA to 500 kVA (most commonly 25-167 kVA)
 
-### What They Are
+**Primary voltage**: 4 kV to 35 kV
 
-Substation transformers (also called power transformers) are large, high-capacity units used in utility substations and large industrial facilities. They handle the bulk power transformation between transmission and distribution voltages.
+**Best for**:
+- Residential service (single homes or small groups)
+- Rural distribution
+- Overhead line systems
+- Areas where underground isn't practical
 
-### Best Applications
+**Why utilities use them**:
+- **Low cost**: Cheapest transformer type per kVA
+- **Simple installation**: Mount on existing poles
+- **Easy maintenance**: Visible and accessible
+- **Quick replacement**: Standard sizes are interchangeable
 
-- **Utility substations**: Grid infrastructure
-- **Large industrial**: Steel mills, mining, heavy manufacturing
-- **Power generation**: Step-up from generators
-- **Data centers**: Hyperscale facilities requiring 20+ MW
-- **Renewable energy**: Solar/wind farm collector substations
+**Limitations**:
+- Limited capacity (rarely over 500 kVA)
+- Exposed to weather and wildlife
+- Aesthetically challenged (wires and hardware visible)
+- Vulnerable to vehicle strikes, storms
 
-### Advantages
+**Typical cost**: $2,000 - $25,000
 
-1. **Capacity**: Handle massive loads (500+ MVA)
-2. **Voltage**: Can step between transmission voltages
-3. **Efficiency**: Higher efficiency at scale
-4. **Features**: OLTC, advanced cooling, monitoring systems
-5. **Redundancy**: N+1 configurations possible
+**Lead time**: 8-20 weeks new; often available from stock
 
-### Limitations
+---
 
-- High cost ($500K to several million)
-- Long lead times (40-60 weeks for custom—if you can get one at all)
-- Requires dedicated substation with switchgear
-- More complex installation and commissioning
-- Ongoing maintenance requirements
+## Substation Transformers (Power Transformers)
 
-### The National Security Problem
+**What they are**: Large, high-capacity units that form the backbone of the electrical grid. They step between transmission voltages at utility substations.
 
-Large power transformers are a known vulnerability in America's grid. The Department of Energy has been warning about this for over a decade:
+**Capacity**: 5 MVA to 500+ MVA
 
-- **Custom designs**: Each one is essentially bespoke—you can't stockpile universal spares
-- **Domestic capacity**: Only a few US facilities can build units over 100 MVA
-- **Foreign dependence**: Most large power transformers come from Germany, Korea, Japan, or China
-- **Attack vector**: A coordinated attack taking out 9-12 key transformers could black out the country for months
+**Primary voltage**: 34.5 kV to 500 kV
 
-Think about that when you're specifying your next substation transformer. Is saving 15% worth increasing grid vulnerability?
+**Best for**:
+- Utility transmission and distribution substations
+- Large industrial facilities (steel mills, refineries)
+- Power generation (generator step-up units)
+- Hyperscale data centers (20+ MW)
+- Utility-scale renewable energy (solar/wind farms)
 
-## Decision Framework
+**Why they're special**:
+- **Massive capacity**: Handle entire neighborhoods or industrial complexes
+- **High efficiency**: 99%+ efficiency at scale
+- **Advanced features**: On-load tap changers, sophisticated cooling, monitoring systems
+- **Custom engineering**: Each one designed for specific application
 
-### Choose Padmount When:
+**Limitations**:
+- **Expensive**: $500K to $5M+
+- **Long lead times**: 40-80 weeks (sometimes longer)
+- **Complex installation**: Requires dedicated substation, switchgear, civil works
+- **Maintenance intensive**: Oil testing, cooling systems, monitoring
 
-- Load is under 10 MVA
-- Primary voltage is 35 kV or less
-- Underground distribution is required or preferred
-- Space is limited
-- Budget is constrained
-- Faster delivery is needed
+**The national security problem**: Large power transformers are a known grid vulnerability. Most are foreign-made, custom-designed, and can't be quickly replaced. The DOE has been warning about this for years.
 
-### Choose Substation When:
+**Typical cost**: $300,000 - $5,000,000+ (transformer only)
 
-- Load exceeds 10 MVA
-- Primary voltage exceeds 35 kV
-- Multiple feeders are needed
-- Future expansion is planned
-- Redundancy is required
-- Industrial process loads require high reliability
+**Lead time**: 40-80 weeks; very limited stock availability
 
-## Cost Considerations
+---
 
-### Padmount Total Cost
+## Dry-Type Transformers
 
-- **Equipment**: $25,000 - $150,000
-- **Concrete pad**: $3,000 - $8,000
-- **Installation**: $5,000 - $15,000
-- **Primary cable**: Varies by distance
-- **Total typical**: $40,000 - $200,000
+**What they are**: Transformers cooled by air instead of oil. Windings are insulated with epoxy, cast resin, or varnish.
 
-### Substation Total Cost
+**Capacity**: 1 kVA to 35 MVA (most commonly 15 kVA to 2,500 kVA)
 
-- **Transformer**: $300,000 - $3,000,000+
-- **Switchgear**: $100,000 - $500,000
-- **Civil/structural**: $200,000 - $1,000,000
-- **Installation/commissioning**: $100,000 - $500,000
-- **Total typical**: $1,000,000 - $10,000,000+
+**Primary voltage**: Up to 35 kV (medium voltage) or below 600V (low voltage)
 
-### The Real Cost: Time
+**Best for**:
+- **Indoor installations** where oil is prohibited or impractical
+- Commercial buildings, hospitals, schools
+- High-rise buildings
+- Clean rooms and data centers
+- Fire-sensitive environments
+- Areas with strict environmental requirements
 
-The biggest cost isn't dollars—it's time. A data center waiting 18 months for a substation transformer loses millions in delayed revenue. A utility scrambling to replace a failed transformer may pay 3x market price for emergency delivery.
+**Why people choose them**:
+- **No oil**: Eliminates fire risk and containment requirements
+- **Indoor friendly**: No vault or special room required in many jurisdictions
+- **Lower maintenance**: No oil to test, filter, or replace
+- **Environmentally safer**: No risk of oil spills
 
-**This is what happens when you offshore critical manufacturing.**
+**Limitations**:
+- **More expensive** than oil-filled for same capacity
+- **Less efficient** than oil-filled (higher losses)
+- **Noisier** than oil-filled
+- **Larger footprint** for same capacity
+- **Requires ventilation** for cooling
 
-## Hybrid Approaches
+**Typical cost**: $15,000 - $200,000 (premium over oil-filled)
 
-For medium-scale applications (5-20 MVA), consider:
+**Lead time**: 8-24 weeks
 
-1. **Multiple padmounts**: Several smaller units instead of one substation
-2. **Unit substation**: Compact, factory-assembled substation package
-3. **Mobile substation**: Temporary or emergency applications
+---
+
+## Unit Substations
+
+**What they are**: Factory-assembled packages combining transformer, switchgear, and secondary distribution in one unit. Basically a "substation in a box."
+
+**Capacity**: 500 kVA to 10 MVA (typically)
+
+**Best for**:
+- Industrial facilities needing medium voltage distribution
+- Commercial buildings with significant load
+- Data centers
+- Applications where space and installation time matter
+
+**Why people choose them**:
+- **Fast deployment**: Factory-assembled, tested before shipping
+- **Compact**: Smaller footprint than equivalent site-built substation
+- **Simplified installation**: One vendor, one delivery, one installation
+- **Coordinated protection**: Switchgear and transformer designed together
+
+**Types**:
+- **Indoor**: For installation inside buildings
+- **Outdoor**: Weatherproof enclosures
+- **Pad-mounted**: Ground-level outdoor installation
+- **Subway-type**: For underground vaults
+
+**Typical cost**: $100,000 - $500,000
+
+**Lead time**: 16-32 weeks
+
+---
+
+## Autotransformers
+
+**What they are**: Transformers with a single winding that serves as both primary and secondary. Part of the winding is shared between input and output.
+
+**Capacity**: 50 kVA to hundreds of MVA
+
+**Best for**:
+- **Voltage regulation**: Buck/boost applications
+- **Motor starting**: Reduced voltage starting
+- **Interconnecting systems**: Where voltage ratios are small (e.g., 480V to 600V)
+- **Utility tie transformers**: Connecting systems at similar voltages
+
+**Why they're different**:
+- **More efficient**: Less copper, lower losses for small voltage changes
+- **Smaller and cheaper**: For same kVA at low ratios
+- **No isolation**: Primary and secondary are electrically connected
+
+**Limitations**:
+- **No isolation**: Can't use where galvanic isolation is required
+- **Only practical for small ratios**: Typically 4:1 or less
+- **Fault current issues**: Faults on one side affect the other
+
+**Typical cost**: 50-70% of equivalent two-winding transformer
+
+---
+
+## Rectifier Transformers
+
+**What they are**: Specialized transformers designed to feed DC rectifier systems. Used in industrial processes requiring DC power.
+
+**Best for**:
+- Electrochemical processes (aluminum smelting, chlor-alkali)
+- DC motor drives
+- Electroplating
+- DC traction (rail, mining vehicles)
+
+**Special features**:
+- Multiple secondary windings with phase shifts
+- High harmonic tolerance
+- Designed for rectifier duty cycles
+
+---
+
+## Furnace Transformers
+
+**What they are**: Heavy-duty transformers for electric arc furnaces used in steelmaking and other high-power melting applications.
+
+**Special features**:
+- Extremely high current secondaries (thousands of amps)
+- On-load tap changers for power control
+- Built to handle severe duty cycles and harmonics
+
+---
+
+## Mobile Substations
+
+**What they are**: Complete substations mounted on trailers for rapid deployment.
+
+**Best for**:
+- Emergency replacement after transformer failures
+- Temporary power during maintenance
+- Construction projects
+- Event power
+- Disaster response
+
+**Why they're valuable**:
+- **Deploy in hours**: Not weeks or months
+- **Bridge the gap**: Keep power on while permanent solution is built
+- **Flexible**: Move between sites as needed
+
+**Limitations**:
+- Limited capacity (typically up to 50 MVA)
+- Rental costs add up
+- May require special permits for transport
+
+---
+
+## Choosing the Right Type: Quick Reference
+
+| Your Situation | Best Transformer Type |
+|---------------|----------------------|
+| New commercial building, underground power | Padmount |
+| Residential subdivision | Padmount or pole-mount |
+| Inside a building, fire concerns | Dry-type |
+| Industrial facility, 480V distribution | Unit substation or dry-type |
+| Utility substation | Power transformer |
+| Data center < 10 MW | Padmount or unit substation |
+| Data center > 20 MW | Substation transformer |
+| Solar/wind farm | Substation transformer |
+| Emergency backup | Mobile substation |
+| Motor starting | Autotransformer |
+
+---
+
+## The Supply Chain Reality
+
+Regardless of type, here's what you're dealing with in 2026:
+
+**Lead times have exploded** because America offshored transformer manufacturing. A decade ago, you could get most distribution transformers in 4-8 weeks. Now it's 12-28 weeks for new orders.
+
+**Stock is your friend**. Padmounts and pole-mounts from stockyards—new or refurbished—can ship in 1-2 weeks. Refurb-ready units take 4-6 weeks. That's still way faster than new manufacturing.
+
+**Large power transformers are a different story**. 40-80 week lead times are normal. Over 100 MVA, you're looking at 60-90 weeks. And most are foreign-made, which creates both supply chain risk and potential FEOC compliance issues.
+
+**Domestic matters more than ever**. Between IRA tax credits, FEOC rules, and basic supply chain resilience, American-made transformers are increasingly the smart choice—not just the patriotic one.
+
+---
 
 ## FluxCo Can Help
 
-Not sure which approach is right for your project? Our engineering team can review your requirements and recommend the most cost-effective solution—with an emphasis on domestic suppliers and supply chain security.
+Not sure which type you need? Our team has seen it all. We'll help you:
 
-- [Request a consultation](#contact)
-- [Browse padmount inventory](/transformers/padmount)
-- [Browse substation inventory](/transformers/substation)
+- Match the right transformer type to your application
+- Find stock or refurb options for faster delivery
+- Navigate domestic content and FEOC requirements
+- Get competitive pricing from American manufacturers
+
+[Contact us](#contact) or [browse our inventory](/inventory) to see what's available now.
 `,
   },
   {
@@ -1834,6 +1990,269 @@ We're stocking both current-standard and 2027-compliant inventory, with an empha
 Our engineering team can help you navigate the transition.
 
 [View efficiency-rated inventory](/inventory) or [discuss your project requirements](#contact).
+`,
+  },
+  {
+    slug: "amorphous-steel-core-transformers",
+    title: "Amorphous Steel Cores: The Efficiency Secret Most Buyers Don't Know About",
+    description:
+      "Amorphous metal cores slash no-load losses by 70-80% compared to conventional silicon steel. With DOE efficiency mandates tightening, they're about to become a lot more important.",
+    category: "technical",
+    publishedAt: "2026-01-27",
+    readTime: "8 min read",
+    keywords: [
+      "amorphous steel transformer",
+      "amorphous metal core",
+      "transformer efficiency",
+      "no-load losses",
+      "core losses",
+      "DOE efficiency",
+      "metglas transformer",
+      "energy efficient transformer",
+    ],
+    content: `
+## The Material That Changes Everything
+
+Inside every transformer is a core—the magnetic heart that makes voltage transformation possible. For over a century, these cores have been made from grain-oriented electrical steel (GOES), also called silicon steel.
+
+But there's another option most buyers never hear about: **amorphous metal cores**.
+
+Amorphous steel (technically a metallic glass, not steel) can reduce core losses by **70-80%** compared to conventional silicon steel. That's not a typo. And with DOE efficiency mandates getting stricter, amorphous core transformers are about to become a much bigger deal.
+
+## What Makes Amorphous Different
+
+### The Science (Simplified)
+
+Conventional silicon steel has a crystalline structure—atoms arranged in regular, repeating patterns. When magnetic fields change direction (60 times per second in AC power), these crystals resist, generating heat. That's core loss.
+
+Amorphous metal has no crystal structure—atoms are randomly arranged, like glass. This "disordered" structure allows magnetic fields to change direction with far less resistance. Less resistance = less heat = lower losses.
+
+### The Manufacturing Process
+
+Amorphous metal is made by cooling molten alloy extremely rapidly—about a million degrees per second. The metal solidifies before crystals can form, creating thin ribbons (about 25 microns thick, vs. 230+ microns for silicon steel).
+
+These ribbons are wound into transformer cores. The thinness and amorphous structure combine to dramatically reduce losses.
+
+**The trade-off**: Amorphous metal is more expensive and harder to work with than silicon steel. The cores are larger for the same capacity. But the efficiency gains often justify the premium.
+
+## Understanding Transformer Losses
+
+To appreciate amorphous cores, you need to understand the two types of transformer losses:
+
+### No-Load Losses (Core Losses)
+
+These occur whenever the transformer is energized, regardless of load. They're caused by:
+- **Hysteresis**: Energy lost as the core magnetizes and demagnetizes
+- **Eddy currents**: Circulating currents induced in the core material
+
+No-load losses are **constant 24/7/365**—even when the transformer is sitting idle at 2 AM on Sunday.
+
+### Load Losses (Winding Losses)
+
+These increase with load. They're caused by:
+- **I²R losses**: Current flowing through winding resistance
+- **Stray losses**: Eddy currents in structural parts
+
+Load losses only matter when the transformer is working.
+
+### Why No-Load Losses Matter More Than You Think
+
+Here's the thing: most transformers don't run at full load most of the time.
+
+A typical distribution transformer might average 30-40% of rated capacity. During low-demand periods (nights, weekends), it might run at 10-20% load.
+
+**But no-load losses never stop.**
+
+For a transformer that's lightly loaded on average, no-load losses can represent 50-70% of total annual energy loss. Cut no-load losses by 75%, and you've slashed total losses dramatically.
+
+## The Numbers: Amorphous vs. Conventional
+
+Here's a real comparison for a 1,000 kVA distribution transformer:
+
+| Metric | Conventional GOES | Amorphous Core | Difference |
+|--------|------------------|----------------|------------|
+| No-load loss | 1,200 W | 300 W | -75% |
+| Load loss (at 100%) | 10,000 W | 10,500 W | +5% |
+| Total loss (at 50% load) | 3,700 W | 2,925 W | -21% |
+| Total loss (at 25% load) | 1,825 W | 956 W | -48% |
+
+Notice what happens at light loads: the amorphous transformer is **twice as efficient** because no-load losses dominate.
+
+### Annual Energy Savings
+
+For that same 1,000 kVA transformer at average 35% load:
+
+| Metric | Conventional | Amorphous | Savings |
+|--------|--------------|-----------|---------|
+| Annual no-load loss | 10,512 kWh | 2,628 kWh | 7,884 kWh |
+| Annual load loss | 10,738 kWh | 11,275 kWh | -537 kWh |
+| **Total annual loss** | **21,250 kWh** | **13,903 kWh** | **7,347 kWh** |
+
+At $0.10/kWh, that's **$735/year in savings**. Over a 30-year transformer life: **$22,000+**.
+
+And that's just one transformer. Utilities with thousands of distribution transformers see massive aggregate savings.
+
+## When Amorphous Makes Sense
+
+### Ideal Applications
+
+**Lightly loaded transformers**: The lower the average load, the bigger the advantage. Residential distribution, rural feeders, and standby/backup applications benefit most.
+
+**24/7 energized equipment**: Transformers that are always on (even at low load) accumulate no-load losses continuously.
+
+**High electricity costs**: The higher your $/kWh, the faster amorphous pays back.
+
+**Long service life**: Transformers that will operate for 25-40 years capture decades of savings.
+
+**Utility and renewable energy**: Where total cost of ownership matters more than upfront price.
+
+### Less Ideal Applications
+
+**Heavily loaded transformers**: If a transformer consistently runs at 70%+ load, the slightly higher load losses of amorphous cores offset some of the no-load savings.
+
+**Tight space constraints**: Amorphous cores are physically larger than equivalent GOES cores.
+
+**Budget-constrained projects**: The upfront premium (typically 20-40%) may not be justified for short-term installations.
+
+## The DOE Connection: Why This Matters Now
+
+The Department of Energy's efficiency standards target **total losses**—both no-load and load losses. As standards tighten:
+
+### DOE 2016 → 2027
+
+The 2027 standards significantly increase efficiency requirements. For many transformer sizes, meeting these standards with conventional silicon steel requires:
+- Higher-grade (more expensive) GOES
+- Larger cores
+- More copper in windings
+
+**Or**: Use amorphous cores and meet the standards more easily.
+
+### Looking Toward 2029-2030
+
+If DOE continues the efficiency trajectory, future standards may be difficult to meet with conventional materials at reasonable cost. Amorphous cores provide a technology pathway to very high efficiency.
+
+### The Economic Tipping Point
+
+As efficiency requirements rise:
+1. Conventional transformers need more/better material → costs rise
+2. Amorphous transformers already exceed requirements → relative premium shrinks
+3. At some point, amorphous becomes cost-competitive on first cost—and wins decisively on lifecycle cost
+
+We're approaching that tipping point.
+
+## The Manufacturing Landscape
+
+### Who Makes Amorphous Core Material
+
+The primary supplier of amorphous metal for transformers is **Metglas** (a Hitachi subsidiary, manufactured in South Carolina). Their product is often called "Metglas" generically, like "Kleenex" for tissues.
+
+Other suppliers include:
+- **AMES** (China) - Growing capacity
+- **Qingdao Yunlu** (China) - Large producer
+
+**The supply chain concern**: If you care about domestic content (and you should), Metglas is the primary American source. Chinese amorphous metal may create FEOC compliance issues for IRA-eligible projects.
+
+### Who Makes Amorphous Core Transformers
+
+Several manufacturers offer amorphous core options:
+- **Howard Industries** (Mississippi) - Major US producer with amorphous options
+- **Hitachi Energy** - Global leader, some US production
+- **Various Asian manufacturers** - Lower cost but supply chain questions
+
+Ask specifically about core material source and transformer manufacturing location. "Amorphous core" doesn't automatically mean "American made."
+
+## Cost-Benefit Analysis
+
+### Upfront Premium
+
+Amorphous core transformers typically cost **20-40% more** than equivalent conventional units. The premium varies by:
+- Transformer size (smaller units have higher relative premium)
+- Manufacturer
+- Order volume
+- Current material costs
+
+### Payback Calculation
+
+Simple payback = Premium / Annual energy savings
+
+**Example**:
+- Conventional 500 kVA transformer: $35,000
+- Amorphous 500 kVA transformer: $45,000
+- Premium: $10,000
+- Annual energy savings: $500
+- **Simple payback: 20 years**
+
+That sounds long—but transformers last 30-40 years. And this calculation ignores:
+- Rising electricity rates
+- Carbon costs
+- Utility rebates for efficient equipment
+
+### Utility Rebates
+
+Many utilities offer rebates for high-efficiency transformers. These can offset 25-50% of the amorphous premium, dramatically improving payback.
+
+### Total Owning Cost (TOC)
+
+Sophisticated buyers use TOC evaluation:
+
+**TOC = Purchase Price + (A × No-Load Loss) + (B × Load Loss)**
+
+Where A and B are capitalized cost factors ($/watt) based on electricity rates and load profile.
+
+With typical A/B factors, amorphous transformers often have **lower TOC** despite higher purchase price.
+
+## Specifying Amorphous Core Transformers
+
+### In Your RFQ
+
+Include language like:
+
+*"Transformer shall utilize amorphous metal core material to minimize no-load losses. Core material shall be manufactured in the United States. Transformer shall meet DOE 2027 efficiency standards."*
+
+### Questions to Ask
+
+1. **What is the no-load loss at rated voltage?** (Should be 70-80% lower than GOES equivalent)
+2. **Where is the core material manufactured?**
+3. **Where is the transformer assembled?**
+4. **What is the physical size compared to conventional?** (May affect installation)
+5. **What warranty is provided on core performance?**
+
+### Watch for "Hybrid" Designs
+
+Some manufacturers offer "hybrid" cores that combine amorphous and silicon steel. These provide partial efficiency gains at lower premium. Make sure you understand what you're getting.
+
+## The Bigger Picture
+
+Amorphous core transformers represent a genuine technological advancement—not incremental improvement, but step-change efficiency gains.
+
+As the US rebuilds its electrical infrastructure for:
+- Data center growth
+- EV charging
+- Renewable energy integration
+- Grid modernization
+
+...we should be deploying the most efficient equipment available, not the cheapest.
+
+**Every kilowatt-hour lost in transformer cores is**:
+- Energy we have to generate (often from fossil fuels)
+- Carbon we emit unnecessarily
+- Money wasted on losses
+- Grid capacity consumed by inefficiency
+
+Amorphous cores aren't the answer for every application. But they should be considered for far more applications than they currently are.
+
+## FluxCo's Position
+
+We stock and source both conventional and amorphous core transformers. Our recommendation depends on your specific application:
+
+- **Lifecycle cost analysis**: We'll model the payback for your load profile
+- **Domestic sourcing**: We prioritize American-made cores and transformers
+- **DOE compliance**: We can spec to current or 2027 standards
+- **Utility rebates**: We'll help you capture available incentives
+
+If you've never considered amorphous, it's worth a conversation.
+
+[Discuss efficiency options with our team](#contact) or [browse high-efficiency inventory](/inventory).
 `,
   },
 ];
